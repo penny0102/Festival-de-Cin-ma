@@ -1,20 +1,21 @@
 const moviesList = document.getElementById('movies-list')
 
 
-function getDataFromApi(){
+async function getDataFromApi(){
     const api = `https://api.tvmaze.com/shows`;
-    fetch(api).then(res => res.json()).then(data => {
-        data.slice(0, 6).forEach(movie => {
-        let iten = movieIten(movie.image.medium, movie.name, movie.summary);
-        moviesList.innerHTML += iten;
+    let result = await fetch(api);
 
-        })
-
-    }).catch(err => console.log(err));
+    if(!result) return;
+    let json_data = await result.json()
+    
+    for(let movie of json_data.slice(0, 6)){
+      let iten = movieIten(movie.image.medium, movie.name, movie.summary);
+      moviesList.innerHTML += iten;
+    }
 }
 
-const movieIten = (srcImg, title, desc) => 
-    `
+function movieIten(srcImg, title, desc){
+    let  html_code = `
     <div class="iten">
         <div class="card">
           <div class="card-img">
@@ -28,6 +29,10 @@ const movieIten = (srcImg, title, desc) =>
         </div>
       </div>
     `
+    return html_code;
+
+}
+
 
 
 getDataFromApi();
