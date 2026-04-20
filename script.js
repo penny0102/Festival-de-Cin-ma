@@ -9,7 +9,7 @@ async function main() {
             return;
         }
         let json_data = await respons.json();
-        json_data.forEach(movie => {
+        json_data.slice(0, 6).forEach(movie => {
             moviesList.innerHTML += addHtmlCode(movie.image.medium, movie.name, movie.summary);
         });
     }
@@ -37,3 +37,5 @@ function addHtmlCode(img, title, desc) {
 function randomNumber() {
     return String(Math.floor(Math.random() * 11));
 }
+
+main();
